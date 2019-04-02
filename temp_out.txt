@@ -47,3 +47,5 @@
 5.2.2	house	NN	<fs af=house,n,m,s,3,0,,>
 	))
 	))
+
+
