@@ -1,13 +1,16 @@
 import os
 
 file_in = "temp_SSF.txt"
-error= "error.txt"
-temp_file = "out.txt"
+error= "error_conv1.txt"
+temp_file = "main_format.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
     
 def file_writer(list_list):
+    size = len(list_list)
+    for num in range(14-size):
+        list_list.append("")
     try:
         out_temp_file.write("\t".join(list_list)+'\n')
     except:
@@ -69,13 +72,14 @@ def sentence_cleaner(sentence):
             file_writer(atom)
     out_temp_file.write('\n')
 
-sentence_ = []
-with open(file_in, 'r', encoding='utf-8') as f1:
-    for line in f1:
-        if line != '\n':
-            pair = line.strip().split('\t')
-            sentence_.append(pair)
-        else:
-            sentence_cleaner(sentence_)
-            sentence_.clear()
-sentence_cleaner(sentence_)
+def func():
+    sentence_ = []
+    with open(file_in, 'r', encoding='utf-8') as f1:
+        for line in f1:
+            if line != '\n':
+                pair = line.strip().split('\t')
+                sentence_.append(pair)
+            else:
+                sentence_cleaner(sentence_)
+                sentence_.clear()
+    sentence_cleaner(sentence_)

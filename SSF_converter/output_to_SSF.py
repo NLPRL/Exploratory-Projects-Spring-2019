@@ -1,9 +1,9 @@
 import os
 import queue
 
-file_in = "out.txt"
-error= "error_out.txt"
-temp_file = "temp_out.txt"
+file_in = "main_format.txt"
+error= "error_conv2.txt"
+temp_file = "SSF.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
@@ -61,13 +61,14 @@ def sentence_builder(sentence):
         print_close_brackets()
     out_temp_file.write('\n')
 
-sentence_ = []
-with open(file_in, 'r', encoding='utf-8') as f1:
-    for line in f1:
-        if line != '\n':
-            pair = line.strip().split('\t')
-            sentence_.append(pair)
-        else:
-            sentence_builder(sentence_)
-            sentence_.clear()
-sentence_builder(sentence_)
+def func():
+    sentence_ = []
+    with open(file_in, 'r', encoding='utf-8') as f1:
+        for line in f1:
+            if line != '\n':
+                pair = line.strip().split('\t')
+                sentence_.append(pair)
+            else:
+                sentence_builder(sentence_)
+                sentence_.clear()
+    sentence_builder(sentence_)
