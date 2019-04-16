@@ -1,0 +1,44 @@
+1	open_bracket_here
+1.1	0	1	यह
+2	open_bracket_here
+2.1	1	2	एशिया
+3	open_bracket_here
+3.1	2	3	की
+4	open_bracket_here
+4.1	3	4	सबसे
+5	open_bracket_here
+5.1	4	5	बड़ी
+6	open_bracket_here
+6.1	5	6	मस्जिदों
+7	open_bracket_here
+7.1	6	7	में
+8	open_bracket_here
+8.1	7	8	से
+9	open_bracket_here
+9.1	8	9	एक
+10	open_bracket_here
+10.1	9	10	है
+11	open_bracket_here
+11.1	10	11	।
+1	open_bracket_here
+1.1	0	1	यह
+2	open_bracket_here
+2.1	1	2	एशिया
+3	open_bracket_here
+3.1	2	3	की
+4	open_bracket_here
+4.1	3	4	सबसे
+5	open_bracket_here
+5.1	4	5	बड़ी
+6	open_bracket_here
+6.1	5	6	मस्जिदों
+7	open_bracket_here
+7.1	6	7	में
+8	open_bracket_here
+8.1	7	8	से
+9	open_bracket_here
+9.1	8	9	एक
+10	open_bracket_here
+10.1	9	10	है
+11	open_bracket_here
+11.1	10	11	।

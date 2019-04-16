@@ -12,13 +12,14 @@ from keras.utils import to_categorical
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from collections import deque
-from predict_with_features import *
+from morph_analyser.predict_with_features import *
 
 import tensorflow as tf
 import os
 tf.logging.set_verbosity(tf.logging.ERROR)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# print(BASE_DIR)
 
 EMBEDDING_DIM = 64
 LAYER_NUM = 2
@@ -28,10 +29,10 @@ X_max_len = 18
 rnn_output_size = 32
 Vocabulary_size = 90
 NUM_FEATURES = 54
-n1, n2, n3, n4, n5, n7, _ = pickle.load(open('./n', 'rb'))
+n1, n2, n3, n4, n5, n7, _ = pickle.load(open(BASE_DIR+'/n', 'rb'))
 
 def encode_words(X):
-    X_word2idx = pickle.load(open('./X_word2idx', 'rb'))
+    X_word2idx = pickle.load(open(BASE_DIR+'/X_word2idx', 'rb'))
     X_return = []
     for i, word in enumerate(X):
         temp = []
@@ -49,7 +50,7 @@ def encode_features(X_test):
     # print(X_test[0])
     # print(len(X_test[0]))
     total_features_to_be_encoded = len(X_test[0][3:])
-    encoders = pickle.load(open('./phonetic_feature_encoders', 'rb'))
+    encoders = pickle.load(open(BASE_DIR+'/phonetic_feature_encoders', 'rb'))
     transformed_feature_to_be_returned = []
     for i in range(len(encoders)):
         arr = [w if w in list(encoders[i].classes_) else 'UNK' for w in list(zip(*X_test))[i + 3]]
@@ -69,7 +70,7 @@ def encode_features(X_test):
 
 def getIndexedWords(X_unique):
     X = [list(x) for x in X_unique if len(x) > 0]
-    X_word2idx = pickle.load(open('./X_word2idx', 'rb'))
+    X_word2idx = pickle.load(open(BASE_DIR+'/X_word2idx', 'rb'))
     for i, word in enumerate(X):
         for j, char in enumerate(word):
             if char in X_word2idx:
@@ -260,13 +261,14 @@ def format_output_data(predictions, originals, encoders, pred_features, sentence
 
 
 def predict(comment):
+    sentences = [line.split() for line in comment.split('\n')]
     global X_max_len, model, n_phonetics, graph
-    X_orig = comment
-    X_wrds = [item[::-1] for  item in comment]
+    X_orig = [item for sublist in sentences for item in sublist]
+    X_wrds = [item[::-1] for sublist in sentences for item in sublist]
     # print(X_wrds)
     X_wrds_inds = encode_words(X_wrds)
     # print(X_wrds_inds)
-    X_features = [add_basic_features(comment, word_ind) for  word_ind, _ in enumerate(comment)]
+    X_features = [add_basic_features(sent, word_ind) for sent in sentences for word_ind, _ in enumerate(sent)]
     # print ("Features")
     # print(len(X_features), len(X_features[0]))
     X_fts = encode_features(X_features)
@@ -307,7 +309,7 @@ def predict(comment):
         # print("baap",f1.shape)
         pred_features = [np.argmax(i, axis=1) for i in pred_features]
         # print (pred_features[2][0])
-        X_idx2word = pickle.load(open('./X_idx2word', 'rb'))
+        X_idx2word = pickle.load(open(BASE_DIR+'/X_idx2word', 'rb'))
         sequences = []
 
         for i in predictions:
@@ -320,16 +322,16 @@ def predict(comment):
             # print("test_sample_num",":", sequence)
             sequences.append(sequence)
 
-        enc = pickle.load(open('./enc', 'rb'))
+        enc = pickle.load(open(BASE_DIR+'/enc', 'rb'))
         data=format_output_data(sequences, X_orig, enc, pred_features, sentences)
     # print(data)
     return data
 
 
-n1, n2, n3, n4, n5, n7, _ = pickle.load(open('./n', 'rb'))
+n1, n2, n3, n4, n5, n7, _ = pickle.load(open(BASE_DIR+'/n', 'rb'))
 n_phonetics = NUM_FEATURES
 model = create_model(Vocabulary_size, X_max_len, n_phonetics, n1, n2, n3, n4, n5, n7, HIDDEN_DIM, LAYER_NUM)
-model.load_weights('./frozen_training_weights.hdf5')
+model.load_weights(BASE_DIR+'/frozen_training_weights.hdf5')
 graph = tf.get_default_graph()
 
 

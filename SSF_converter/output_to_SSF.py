@@ -1,9 +1,11 @@
 import os
 import queue
 
-file_in = "main_format.txt"
-error= "error_conv2.txt"
-temp_file = "SSF.txt"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR+='/'
+file_in = BASE_DIR+"main_format.txt"
+error= BASE_DIR+"error_conv2.txt"
+temp_file = BASE_DIR+"SSF.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
@@ -29,11 +31,14 @@ def print_open_brackets(pos,tag):
 def main_call(word):
     output = []
     output.append(word[0])
-    output.append(word[3])
-    output.append(word[4])
-    tmp=','.join(word[5:13])
-    tmp='<fs af='+tmp+'>'
-    output.append(tmp)
+    try:
+        output.append(word[3])
+        output.append(word[4])
+        tmp=','.join(word[5:13])
+        tmp='<fs af='+tmp+'>'
+        output.append(tmp)
+    except:
+        pass
     file_writer(output)
 
 def sentence_builder(sentence):
@@ -54,8 +59,11 @@ def sentence_builder(sentence):
             count_open=int(word[2])
             count_close=int(word[1])
             open_till+=total_new
-            for itr in range(total_new):
-                print_open_brackets(bracket_sequence.get(),word[12+open_till-itr])
+            try:
+                for itr in range(total_new):
+                    print_open_brackets(bracket_sequence.get(),word[12+open_till-itr])
+            except:
+                pass
             main_call(word)
     for num in range(count_open-count_close):
         print_close_brackets()
