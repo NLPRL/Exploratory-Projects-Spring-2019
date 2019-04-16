@@ -260,14 +260,13 @@ def format_output_data(predictions, originals, encoders, pred_features, sentence
 
 
 def predict(comment):
-    sentences = [line.split() for line in comment.split('\n')]
     global X_max_len, model, n_phonetics, graph
-    X_orig = [item for sublist in sentences for item in sublist]
-    X_wrds = [item[::-1] for sublist in sentences for item in sublist]
+    X_orig = comment
+    X_wrds = [item[::-1] for  item in comment]
     # print(X_wrds)
     X_wrds_inds = encode_words(X_wrds)
     # print(X_wrds_inds)
-    X_features = [add_basic_features(sent, word_ind) for sent in sentences for word_ind, _ in enumerate(sent)]
+    X_features = [add_basic_features(comment, word_ind) for  word_ind, _ in enumerate(comment)]
     # print ("Features")
     # print(len(X_features), len(X_features[0]))
     X_fts = encode_features(X_features)
