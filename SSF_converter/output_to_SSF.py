@@ -23,6 +23,7 @@ def print_close_brackets():
         error1.write('Unable to write in file'+'\n')
 
 def print_open_brackets(pos,tag):
+    # print('here I am\n')
     try:
         out_temp_file.write(pos+'\t'+'(('+'\t'+tag+'\n')
     except:
@@ -48,22 +49,24 @@ def sentence_builder(sentence):
     count_close=0
     for word in sentence:
         if word[1]=='open_bracket_here':
+            open_till+=1
             bracket_sequence.put(word[0])
         else:
             new_close=int(word[1])-count_close
             open_till-=new_close
+            count_close=int(word[1])
             for num in range(new_close):
                 print_close_brackets()
-            new_open=int(word[2])-count_open
-            total_new=bracket_sequence.qsize()
+            # new_open=int(word[2])-count_open
+            # total_new=bracket_sequence.qsize()
             count_open=int(word[2])
-            count_close=int(word[1])
-            open_till+=total_new
+            # open_till+=total_new
             try:
-                for itr in range(total_new):
-                    print_open_brackets(bracket_sequence.get(),word[12+open_till-itr])
+                for itr in range(open_till):
+                    print_open_brackets(bracket_sequence.get(),'')
             except:
-                pass
+                for itr in range(open_till):
+                    print_open_brackets(bracket_sequence.get(),word[11+open_till-itr])
             main_call(word)
     for num in range(count_open-count_close):
         print_close_brackets()

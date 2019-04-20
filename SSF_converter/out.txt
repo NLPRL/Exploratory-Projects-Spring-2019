@@ -1,0 +1,11 @@
+1.1	children	NNS	child	n	m	p	3	0		NP
+2.1	are	VBP	be	v	m	p	3	0		VG
+2.2	watching	VBG	watch	v	m	s	3	0		VG
+3.1	some	DT	some	det	m	s	3	0		NP
+3.2	programmes	NNS	programme	n	m	p	3	0		NP
+4.1	on	IN	on	p	m	s	3	0		PP
+4.1.2	television	NN	television	n	m	s	3	0		PP	NP
+5.1	in	IN	in	p	m	s	3	0		PP
+5.2.1	the	DT	the	det	m	s	3	0		PP	NP
+5.2.2	house	NN	house	n	m	s	3	0		PP	NP
+
