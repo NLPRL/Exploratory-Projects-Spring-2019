@@ -179,7 +179,8 @@ def pos_main():
             f1.write(s+'\n')
         out.append(out2)
         f1.write('\n')
+    return out
     f1.flush()
     f1.close()
 
-pos_main()
+final_tags = pos_main()
