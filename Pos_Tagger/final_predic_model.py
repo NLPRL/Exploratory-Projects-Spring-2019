@@ -34,26 +34,12 @@ def load_data(pos_file_path, min_freq=1):
     word_counts = Counter(row[0].lower() for sample in file_train for row in sample)
     vocab = ['<pad>', '<unk>']
     vocab += [w for w, f in iter(word_counts.items()) if f >= min_freq]
-    fil = open('vocabulary.txt','r')
     print(len(voc[0]))
     vocab = voc[0][0]
-    # vocab.rstrip('\n')
     characters = voc[0][1]
-    # characters.rstrip('\n')
     pos_tags = voc[0][2]
-    # pos_tags.rstrip('\n')
     feat = voc[0][3]
-    # feat.rstrip('\n')
     print(voc[0][3])
-    # pos_tags = sorted(list(set(row[1] for sample in file_train for row in sample)))
-    # characters = sorted(list(set(i for sample in file_train for row in sample for i in row[0])))
-    # features = sorted(list(set(i for sample in file_train for row in sample for i in row[2:7])))
-    # characters.insert(0,'<unk>')
-    # characters.insert(0,'<pad>')
-    # pos_tags.insert(0,'<unk>')
-    # pos_tags.insert(0,'<pad>')
-    # features.insert(0,'<pad>')
-    fil.close()
     global max_len_char
     for sample in file_train:
         for row in sample:
@@ -154,26 +140,18 @@ json_file.close()
 loaded_model = model_from_json(loaded_model_json,custom_objects={'CRF':CRF})
 loaded_model.load_weights("model.h5")
 loaded_model.compile('adam', loss=crf_loss, metrics=[crf_viterbi_accuracy])
-y2 = loaded_model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_feature_test.reshape(len(x_feature_test),max_len,features)])
 
-#validation
+# Prediction
 l4=[0]*max_len_char
 l4=numpy.asarray(l4)
 y= loaded_model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_feature_test.reshape(len(x_feature_test),max_len,features)])
 y= y.argmax(-1)
-y2=y2.argmax(-1)
 l4=[0]*max_len_char
 l4=numpy.asarray(l4)
-print(y)
-print(y2)
 y_pred=[]
-y_pred2=[]
-test_y_true=[]
 ctest_y_pred=[]
-ctest_y_true=[]
-ctest_y_pred2=[]
 
-#removing padding from the validation
+#removing padding from the modeloutput
 for i in range(len(X_test)):
     l=[]
     l2=[]
@@ -182,37 +160,23 @@ for i in range(len(X_test)):
         if (X_test[i][j]==0):
             continue
         l.append(y[i][j])
-        l2.append(y2[i][j])
         ctest_y_pred.append(y[i][j])
-        ctest_y_pred2.append(y2[i][j])
     y_pred.append(l)
-    y_pred2.append(l2)
 
 #converting to numpy array
-test_y_pred2 = numpy.asarray(y_pred2)
 test_y_pred=numpy.asarray(y_pred)
-# print(test_y_true)
-# print(test_y_pred)
 
 #writing POS_Tags as module
 f1=open(output_file,'w')
 out = []
-outt=[]
-outtt = []
 for i in range(len(test_y_pred)):
     out2 = []
-    outt2=[]
-    outtt2=[]
     for j in range(len(test_y_pred[i])):
         out2.append(class_labels[test_y_pred[i][j]])
-        outtt2.append(class_labels[test_y_pred2[i][j]])
         s=str(class_labels[test_y_pred[i][j]])
         f1.write(s+'\n')
     out.append(out2)
-    outtt.append(outtt2)
     f1.write('\n')
 f1.flush()
 f1.close()
 
-print(out[0])
-print(outtt[0])
