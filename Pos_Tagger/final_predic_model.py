@@ -168,7 +168,7 @@ def pos_main():
     #converting to numpy array
     test_y_pred=numpy.asarray(y_pred)
 
-    #writing POS_Tags as module
+    #writing POS_Tags in output file
     f1=open(output_file,'w')
     out = []
     for i in range(len(test_y_pred)):
@@ -181,5 +181,3 @@ def pos_main():
         f1.write('\n')
     f1.flush()
     f1.close()
-
-pos_main()
