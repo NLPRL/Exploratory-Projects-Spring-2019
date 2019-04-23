@@ -104,6 +104,7 @@ def tocharacter(characters,vocab,X_train):
         l.append(l1)
     return numpy.asarray(l)
 def main_chunker():
+    out=[]
     train, voc = load_data(chunking_file_path)
     (X_test,x_pos_test,x_feature_test) = train
     (vocab, pos_tags, class_labels,characters,feat) = voc
@@ -133,13 +134,19 @@ def main_chunker():
     #writing output for validation
     f1=open(output_file,'w')
     for i in range(len(test_y_pred)):
+        l1=[]
         for j in range(len(test_y_pred[i])):
             s="\t".join(file_train[i][j])+"\t"
             if (class_labels[test_y_pred[i][j]][0]=='O'):
+                l1.append('O')
                 s=s+'O'
             else:
+                l1.append(class_labels[test_y_pred[i][j]])
                 s=s+class_labels[test_y_pred[i][j]]
             f1.write(s+'\n')
+        out.append(l1)
         f1.write('\n')
     f1.flush()
     f1.close()
+    return out
+
