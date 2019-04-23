@@ -1,0 +1,18 @@
+अमेरिकी	any	any	unk	d	unk	
+राष्ट्रपति	NNP	m	sg	3	d	0	
+जॉर्ज	m	sg	3	d	0	
+डब्लू	m	sg	3	d	0	
+बुश	NNP	sg	3	o	0	
+के	PSP	sg	unk	o	unk	
+आगमन	m	sg	3	o	0	
+पर	unk	unk	unk	unk	unk	
+राजधानी	f	sg	3	o	0	
+दिल्ली	f	sg	3	o	0	
+में	unk	unk	unk	unk	unk	
+असाधारण	any	any	unk	d	unk	
+सुरक्षा	f	sg	3	d	0	
+व्यवस्था	f	pl	3	d	0	
+की	f	pl	3	unk	yA	
+गई	f	sg	any	unk	yA1	
+हैं	any	pl	3	unk	hE	
+।	unk	unk	unk	unk	unk	
