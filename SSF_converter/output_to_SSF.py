@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/'
 file_in = BASE_DIR+"main_format.txt"
 error= BASE_DIR+"error_conv2.txt"
-temp_file = BASE_DIR+"SSF.txt"
+temp_file = "SSF.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
@@ -17,6 +17,7 @@ def file_writer(list_list):
         error1.write("\t".join(list_list)+'\n')
 
 def print_close_brackets():
+    # print ("inhere\n")
     try:
         out_temp_file.write('\t'+'))'+'\n')
     except:
@@ -71,6 +72,8 @@ def sentence_builder(sentence):
     for num in range(count_open-count_close):
         print_close_brackets()
     out_temp_file.write('\n')
+    out_temp_file.flush()
+
 
 def func():
     sentence_ = []

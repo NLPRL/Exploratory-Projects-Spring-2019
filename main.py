@@ -13,11 +13,19 @@ def main_format_writer(data):
 	for each in main_format_data:
 		out_main_file.write('\t'.join(each)+'\n')
 	out_main_file.write('\n')
+	out_main_file.flush()
 	out_main_file.close()
+def block_maker():
+	for  i in range(80):
+		conv2.out_temp_file.write('-')
+	conv2.out_temp_file.write('\n\n')
+	conv2.out_temp_file.flush()
 
 while 1:
+	block_maker()
 	print("Please enter your input :",end=' ')
 	inp = input().split()
+	conv2.out_temp_file.write('New Sentence = '+' '.join(inp)+'\n\n')	
 	main_format_data = []
 	for i  in range(1,len(inp)+1):
 		temp = []
@@ -35,7 +43,7 @@ while 1:
 	# out_main_file.write('\n')
 	# out_main_file.flush()
 	output=	morph_analyser.main(inp)
-	print(output[0])
+	# print(output[0])
 	j=0
 	for i in range(len(output)):
 		while main_format_data[j][1]=='open_bracket_here':
@@ -51,6 +59,8 @@ while 1:
 		main_format_data[j].append('')
 		main_format_data[j].append('')			
 		j+=1
-	print(main_format_data)
+	# print(main_format_data)
 	main_format_writer(main_format_data)
+	conv2.out_temp_file.write('\t\t***Output after Morph Analyser***\n\n')
 	conv2.func()
+	block_maker()
