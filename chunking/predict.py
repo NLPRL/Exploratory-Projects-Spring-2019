@@ -20,7 +20,7 @@ import numpy as np
 max_len_char=18
 max_len=116
 features=5
-chunking_file_path = 'input.txt'
+chunking_file_path = 'input1.txt'
 output_file = 'output.txt'
 dict_file = 'vocabs.txt'
 file_train=[]
@@ -103,43 +103,43 @@ def tocharacter(characters,vocab,X_train):
             l1.append(l2)
         l.append(l1)
     return numpy.asarray(l)
-train, voc = load_data(chunking_file_path)
-(X_test,x_pos_test,x_feature_test) = train
-(vocab, pos_tags, class_labels,characters,feat) = voc
-X_char_test=tocharacter(characters,vocab,X_test)
-json_file = open('model.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-model = model_from_json(loaded_model_json,custom_objects={'CRF': CRF})
-# load weights into new model
-model.load_weights("model.h5")
-print("Loaded model from disk")
-l4=[0]*max_len_char
-l4=numpy.asarray(l4)
-y= model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_pos_test.reshape(len(x_pos_test),max_len),x_feature_test.reshape(len(x_feature_test),max_len,features)])
-y= y.argmax(-1)
-y_pred=[]
-#removing padding from the validation
-for i in range(len(X_test)):
-    l=[]
-    l1=[]
-    for j in range(len(X_test[i])):
-        if (X_test[i][j]==0):
-            continue
-        l.append(y[i][j])
-    y_pred.append(l)
-#converting to numpy array
-test_y_pred=numpy.asarray(y_pred)
-#writing output for validation
-f1=open(output_file,'w')
-for i in range(len(test_y_pred)):
-    for j in range(len(test_y_pred[i])):
-        s="\t".join(file_train[i][j])+"\t"
-        if (class_labels[test_y_pred[i][j]][0]=='O'):
-            s=s+'O'
-        else:
-            s=s+class_labels[test_y_pred[i][j]]
-        f1.write(s+'\n')
-    f1.write('\n')
-f1.flush()
-f1.close()
+def main_chunker():
+    train, voc = load_data(chunking_file_path)
+    (X_test,x_pos_test,x_feature_test) = train
+    (vocab, pos_tags, class_labels,characters,feat) = voc
+    X_char_test=tocharacter(characters,vocab,X_test)
+    json_file = open('model.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    model = model_from_json(loaded_model_json,custom_objects={'CRF': CRF})
+    # load weights into new model
+    model.load_weights("model.h5")
+    l4=[0]*max_len_char
+    l4=numpy.asarray(l4)
+    y= model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_pos_test.reshape(len(x_pos_test),max_len),x_feature_test.reshape(len(x_feature_test),max_len,features)])
+    y= y.argmax(-1)
+    y_pred=[]
+    #removing padding from the validation
+    for i in range(len(X_test)):
+        l=[]
+        l1=[]
+        for j in range(len(X_test[i])):
+            if (X_test[i][j]==0):
+                continue
+            l.append(y[i][j])
+        y_pred.append(l)
+    #converting to numpy array
+    test_y_pred=numpy.asarray(y_pred)
+    #writing output for validation
+    f1=open(output_file,'w')
+    for i in range(len(test_y_pred)):
+        for j in range(len(test_y_pred[i])):
+            s="\t".join(file_train[i][j])+"\t"
+            if (class_labels[test_y_pred[i][j]][0]=='O'):
+                s=s+'O'
+            else:
+                s=s+class_labels[test_y_pred[i][j]]
+            f1.write(s+'\n')
+        f1.write('\n')
+    f1.flush()
+    f1.close()
