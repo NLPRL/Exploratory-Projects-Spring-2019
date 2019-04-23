@@ -181,3 +181,5 @@ def pos_main():
         f1.write('\n')
     f1.flush()
     f1.close()
+
+pos_main()
