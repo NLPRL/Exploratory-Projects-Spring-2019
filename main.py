@@ -2,10 +2,13 @@ import os
 import SSF_converter.SSF_to_Input as conv1
 import SSF_converter.output_to_SSF as conv2
 import morph_analyser.make_prediction as morph_analyser
+import Pos_Tagger.final_predict_model as pos_tagger
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/SSF_converter/'
 main_file = BASE_DIR+"main_format.txt"
+local_add = os.path.dirname(os.path.abspath(__file__))
+pos_tagger_input_file = local_add+'/Pos_Tagger/sentinput.txt'
 
 
 def main_format_writer(data):
@@ -64,3 +67,19 @@ while 1:
 	conv2.out_temp_file.write('\t\t***Output after Morph Analyser***\n\n')
 	conv2.func()
 	block_maker()
+	pos_tagger_input = open(pos_tagger_input_file, 'w', encoding='utf-8')
+	# pos , gender , number, person, case ,tam
+	j=0
+	for i in range(len(output)):
+		while main_format_data[j][1]=='open_bracket_here':
+			j+=1
+		temp=main_format_data[j][3]
+		for k in range(7,12):
+			temp+='\t'+main_format_data[j][k]
+		temp+='\n'
+		pos_tagger_input.write(temp)
+	pos_tagger_input.flush()
+	pos_tagger_input.close()
+	conv2.out_temp_file.write('\t\t***Output after POS Tagger***\n\n')	
+	output = pos_tagger.main()
+	

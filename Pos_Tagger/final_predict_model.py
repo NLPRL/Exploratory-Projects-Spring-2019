@@ -10,7 +10,7 @@ from keras_contrib.layers import CRF
 from keras_contrib.losses import crf_loss
 from keras_contrib.metrics import crf_viterbi_accuracy
 from keras_contrib.datasets import conll2000
-from keras_self_attention import SeqSelfAttention
+# from keras_self_attention import SeqSelfAttention
 from collections import Counter
 from keras.preprocessing.sequence import pad_sequences
 import keras
