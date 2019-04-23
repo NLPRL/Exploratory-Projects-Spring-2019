@@ -125,58 +125,61 @@ def classification_report(y_true, y_pred, labels):
                     sum(report2[1]) / N,
                     sum(report2[2]) / N, N) + '\n')
 
-train, voc = load_data(pos_file_path)
-(X,x_feature) = train
-(vocab, class_labels,characters,feat) = voc
-X_char=tocharacter(characters,vocab,X)
-X_test=X
-X_char_test=X_char
-x_feature_test=x_feature
 
-# Loading Model Weights
-json_file = open('model.json','r')
-loaded_model_json = json_file.read()
-json_file.close()
-loaded_model = model_from_json(loaded_model_json,custom_objects={'CRF':CRF})
-loaded_model.load_weights("model.h5")
-loaded_model.compile('adam', loss=crf_loss, metrics=[crf_viterbi_accuracy])
+def pos_main():
+    train, voc = load_data(pos_file_path)
+    (X,x_feature) = train
+    (vocab, class_labels,characters,feat) = voc
+    X_char=tocharacter(characters,vocab,X)
+    X_test=X
+    X_char_test=X_char
+    x_feature_test=x_feature
 
-# Prediction
-l4=[0]*max_len_char
-l4=numpy.asarray(l4)
-y= loaded_model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_feature_test.reshape(len(x_feature_test),max_len,features)])
-y= y.argmax(-1)
-l4=[0]*max_len_char
-l4=numpy.asarray(l4)
-y_pred=[]
-ctest_y_pred=[]
+    # Loading Model Weights
+    json_file = open('model.json','r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    loaded_model = model_from_json(loaded_model_json,custom_objects={'CRF':CRF})
+    loaded_model.load_weights("model.h5")
+    loaded_model.compile('adam', loss=crf_loss, metrics=[crf_viterbi_accuracy])
 
-#removing padding from the modeloutput
-for i in range(len(X_test)):
-    l=[]
-    l2=[]
-    l1=[]
-    for j in range(len(X_test[i])):
-        if (X_test[i][j]==0):
-            continue
-        l.append(y[i][j])
-        ctest_y_pred.append(y[i][j])
-    y_pred.append(l)
+    # Prediction
+    l4=[0]*max_len_char
+    l4=numpy.asarray(l4)
+    y= loaded_model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_feature_test.reshape(len(x_feature_test),max_len,features)])
+    y= y.argmax(-1)
+    l4=[0]*max_len_char
+    l4=numpy.asarray(l4)
+    y_pred=[]
+    ctest_y_pred=[]
 
-#converting to numpy array
-test_y_pred=numpy.asarray(y_pred)
+    #removing padding from the modeloutput
+    for i in range(len(X_test)):
+        l=[]
+        l2=[]
+        l1=[]
+        for j in range(len(X_test[i])):
+            if (X_test[i][j]==0):
+                continue
+            l.append(y[i][j])
+            ctest_y_pred.append(y[i][j])
+        y_pred.append(l)
 
-#writing POS_Tags as module
-f1=open(output_file,'w')
-out = []
-for i in range(len(test_y_pred)):
-    out2 = []
-    for j in range(len(test_y_pred[i])):
-        out2.append(class_labels[test_y_pred[i][j]])
-        s=str(class_labels[test_y_pred[i][j]])
-        f1.write(s+'\n')
-    out.append(out2)
-    f1.write('\n')
-f1.flush()
-f1.close()
+    #converting to numpy array
+    test_y_pred=numpy.asarray(y_pred)
 
+    #writing POS_Tags as module
+    f1=open(output_file,'w')
+    out = []
+    for i in range(len(test_y_pred)):
+        out2 = []
+        for j in range(len(test_y_pred[i])):
+            out2.append(class_labels[test_y_pred[i][j]])
+            s=str(class_labels[test_y_pred[i][j]])
+            f1.write(s+'\n')
+        out.append(out2)
+        f1.write('\n')
+    f1.flush()
+    f1.close()
+
+pos_main()
