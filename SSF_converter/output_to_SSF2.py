@@ -24,14 +24,14 @@ def print_close_brackets():
 
 def print_open_brackets(pos,tag):
     try:
-        out_temp_file.write(pos+'\t'+'(('+'\t'+tag+'\n')
+        out_temp_file.write(str(pos[0])+'\t'+'(('+'\t'+tag+'\n')
     except:
         error1.write('Unable to write in file at'+pos+'\n')
 
 
-def main_call(word):
+def main_call(pos,word):
     output = []
-    output.append(word[0])
+    output.append(str(pos[0])+'.'+str(pos[1]))
     try:
         output.append(word[3])
         output.append(word[4])
@@ -43,33 +43,31 @@ def main_call(word):
     file_writer(output)
 
 def sentence_builder(sentence):
-    bracket_sequence = queue.Queue(maxsize=100) 
+    # bracket_sequence = queue.Queue(maxsize=100) 
     open_till=0
-    count_open=0
-    count_close=0
+    # count_open=0
+    # count_close=0
+    pos = [0,0]
     for word in sentence:
         if word[1]=='open_bracket_here':
-            open_till+=1
-            bracket_sequence.put(word[0])
+            continue
+            # open_till+=1
+            # bracket_sequence.put(word[0])
         else:
-            new_close=int(word[1])-count_close
-            open_till-=new_close
-            count_close=int(word[1])
-            for num in range(new_close):
-                print_close_brackets()
-            # new_open=int(word[2])-count_open
-            # total_new=bracket_sequence.qsize()
-            count_open=int(word[2])
-            # open_till+=total_new
-            # print(word)
-            if len(word)==13:
-                for itr in range(open_till):
-                    print_open_brackets(bracket_sequence.get(),word[12+itr])
+            if word[12][0] != 'I':
+                pos[0]+=1
+                pos[1]=0
+                for num in range(open_till):
+                    print_close_brackets()
+                open_till=1
+                if word[12][0]=='O':
+                    print_open_brackets(pos,word[12])
+                else:
+                    print_open_brackets(pos,word[12][2:]) 
             else:
-                for itr in range(open_till):
-                    print_open_brackets(bracket_sequence.get(),'')
-            main_call(word)
-    for num in range(count_open-count_close):
+                pos[1]+=1
+            main_call(pos,word)
+    for num in range(open_till):
         print_close_brackets()
     out_temp_file.write('\n')
     out_temp_file.flush()

@@ -1,14 +1,18 @@
 import os
 import SSF_converter.SSF_to_Input as conv1
 import SSF_converter.output_to_SSF as conv2
+import SSF_converter.output_to_SSF2 as conv3
 import morph_analyser.make_prediction as morph_analyser
 import Pos_Tagger.final_predict_model as pos_tagger
+import chunking.predict as chunker
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/SSF_converter/'
 main_file = BASE_DIR+"main_format.txt"
 local_add = os.path.dirname(os.path.abspath(__file__))
-pos_tagger_input_file = local_add+'/Pos_Tagger/sentinput.txt'
+pos_tagger_input_file = local_add + '/Pos_Tagger/sentinput.txt'
+chunker_input_file = local_add + '/chunking/input.txt'
 
 
 def main_format_writer(data):
@@ -18,6 +22,7 @@ def main_format_writer(data):
 	out_main_file.write('\n')
 	out_main_file.flush()
 	out_main_file.close()
+
 def block_maker():
 	for  i in range(80):
 		conv2.out_temp_file.write('-')
@@ -66,7 +71,7 @@ while 1:
 	main_format_writer(main_format_data)
 	conv2.out_temp_file.write('\t\t***Output after Morph Analyser***\n\n')
 	conv2.func()
-	block_maker()
+	
 	pos_tagger_input = open(pos_tagger_input_file, 'w', encoding='utf-8')
 	# pos , gender , number, person, case ,tam
 	for j in range(len(main_format_data)):
@@ -79,6 +84,7 @@ while 1:
 		pos_tagger_input.write(temp)
 	pos_tagger_input.flush()
 	pos_tagger_input.close()
+	
 	conv2.out_temp_file.write('\t\t***Output after POS Tagger***\n\n')	
 	output = pos_tagger.pos_main()
 	# print(output)
@@ -90,3 +96,30 @@ while 1:
 		i+=1
 	main_format_writer(main_format_data)
 	conv2.func()
+
+	chunker_input = open(chunker_input_file, 'w', encoding='utf-8')
+	for j in range(len(main_format_data)):
+		if main_format_data[j][1]=='open_bracket_here':
+			continue
+		temp=main_format_data[j][3]
+		temp+='\t'+main_format_data[j][4]
+		for k in range(7,12):
+			temp+='\t'+main_format_data[j][k]
+		temp+='\n'
+		chunker_input.write(temp)
+	chunker_input.flush()
+	chunker_input.close()
+
+	conv2.out_temp_file.write('\t\t***Output after Chunker***\n\n')	
+	output = chunker.main_chunker()
+	# print(output)
+	i=0
+	for j in range(len(main_format_data)):
+		if main_format_data[j][1]=='open_bracket_here':
+			continue
+		main_format_data[j][12]=output[0][i]
+		i+=1
+	# print(main_format_data)
+	main_format_writer(main_format_data)
+	conv2.func()
+	block_maker()

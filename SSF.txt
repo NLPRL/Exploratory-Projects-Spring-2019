@@ -39,8 +39,6 @@ New Sentence = यह एशिया की सबसे बड़ी मस्ज
 	))
 
 
---------------------------------------------------------------------------------
-
 		***Output after POS Tagger***
 
 1	((	
@@ -74,6 +72,43 @@ New Sentence = यह एशिया की सबसे बड़ी मस्ज
 10.1	है	VM	<fs af=है,,any,sg,any,Unk,Unk>
 	))
 11	((	
+11.1	।	VAUX	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
+	))
+
+
+		***Output after Chunker***
+
+1	((	B-NP
+1.1	यह	PRP	<fs af=यह,,any,sg,3,d,Unk>
+	))
+2	((	B-NP
+2.1	एशिया	NNP	<fs af=एशिया,,any,sg,3,Unk,0>
+	))
+3	((	I-NP
+3.1	की	NNPC	<fs af=का,,Unk,Unk,Unk,Unk,Unk>
+	))
+4	((	I-NP
+4.1	सबसे	NNPC	<fs af=सबसे,,Unk,Unk,Unk,Unk,Unk>
+	))
+5	((	I-NP
+5.1	बड़ी	NNP	<fs af=बड़ा,,f,sg,Unk,d,Unk>
+	))
+6	((	I-NP
+6.1	मस्जिदों	NNP	<fs af=मस्जिद,,any,pl,Unk,any,Unk>
+	))
+7	((	I-NP
+7.1	में	NNP	<fs af=में,,Unk,Unk,Unk,Unk,Unk>
+	))
+8	((	B-NP
+8.1	से	NNP	<fs af=से,,Unk,Unk,Unk,Unk,Unk>
+	))
+9	((	B-NP
+9.1	एक	NNPC	<fs af=एक,,any,any,Unk,any,Unk>
+	))
+10	((	B-VGF
+10.1	है	VM	<fs af=है,,any,sg,any,Unk,Unk>
+	))
+11	((	O
 11.1	।	VAUX	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
 	))
 
