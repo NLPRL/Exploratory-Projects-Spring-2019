@@ -69,10 +69,9 @@ while 1:
 	block_maker()
 	pos_tagger_input = open(pos_tagger_input_file, 'w', encoding='utf-8')
 	# pos , gender , number, person, case ,tam
-	j=0
-	for i in range(len(output)):
-		while main_format_data[j][1]=='open_bracket_here':
-			j+=1
+	for j in range(len(main_format_data)):
+		if main_format_data[j][1]=='open_bracket_here':
+			continue
 		temp=main_format_data[j][3]
 		for k in range(7,12):
 			temp+='\t'+main_format_data[j][k]
@@ -81,5 +80,13 @@ while 1:
 	pos_tagger_input.flush()
 	pos_tagger_input.close()
 	conv2.out_temp_file.write('\t\t***Output after POS Tagger***\n\n')	
-	output = pos_tagger.main()
-	
+	output = pos_tagger.pos_main()
+	# print(output)
+	i=0
+	for j in range(len(main_format_data)):
+		if main_format_data[j][1]=='open_bracket_here':
+			continue
+		main_format_data[j][4]=output[0][i]
+		i+=1
+	main_format_writer(main_format_data)
+	conv2.func()
