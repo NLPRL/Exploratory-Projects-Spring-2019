@@ -1,33 +1,27 @@
 import os
 import queue
-import SSF_converter.output_to_SSF as conv2
+import SSF_converter.output_to_SSF as ssf_converter
 
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# BASE_DIR+='/'
-# file_in = BASE_DIR+"main_format.txt"
-# error= BASE_DIR+"error_conv2.txt"
-# temp_file = "SSF.txt"
-
-# error1=open(error,'w',encoding='utf-8')
-# out_temp_file = open(temp_file, 'w', encoding='utf-8')
     
 def file_writer(list_list):
     try:
-        conv2.out_temp_file.write("\t".join(list_list)+'\n')
+        ssf_converter.out_temp_file.write("\t".join(list_list)+'\n')
     except:
-        conv2.error1.write("\t".join(list_list)+'\n')
+        ssf_converter.error1.write("\t".join(list_list)+'\n')
+
 
 def print_close_brackets():
     try:
-        conv2.out_temp_file.write('\t'+'))'+'\n')
+        ssf_converter.out_temp_file.write('\t'+'))'+'\n')
     except:
-        conv2.error1.write('Unable to write in file'+'\n')
+        ssf_converter.error1.write('Unable to write in file'+'\n')
+
 
 def print_open_brackets(pos,tag):
     try:
-        conv2.out_temp_file.write(str(pos[0])+'\t'+'(('+'\t'+tag+'\n')
+        ssf_converter.out_temp_file.write(str(pos[0])+'\t'+'(('+'\t'+tag+'\n')
     except:
-        conv2.error1.write('Unable to write in file at'+pos+'\n')
+        ssf_converter.error1.write('Unable to write in file at'+pos+'\n')
 
 
 def main_call(pos,word):
@@ -42,6 +36,7 @@ def main_call(pos,word):
     except:
         pass
     file_writer(output)
+
 
 def sentence_builder(sentence):
     # bracket_sequence = queue.Queue(maxsize=100) 
@@ -68,13 +63,14 @@ def sentence_builder(sentence):
             main_call(pos,word)
     for num in range(open_till):
         print_close_brackets()
-    conv2.out_temp_file.write('\n')
-    conv2.out_temp_file.flush()
+    ssf_converter.out_temp_file.write('\n')
+    ssf_converter.out_temp_file.flush()
+
 
 
 def func():
     sentence_ = []
-    with open(conv2.file_in, 'r', encoding='utf-8') as f1:
+    with open(ssf_converter.file_in, 'r', encoding='utf-8') as f1:
         for line in f1:
             if line != '\n':
                 pair = line.strip().split('\t')

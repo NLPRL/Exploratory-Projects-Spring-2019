@@ -5,7 +5,8 @@ import SSF_converter.output_to_SSF2 as ssf_converter2
 import morph_analyser.make_prediction as morph_analyser
 import Pos_Tagger.final_predict_model as pos_tagger
 import chunking.predict as chunker
-
+import morph_generation.main_file as morph_generator
+from morph_generation.main_file import Seq2Seq,DecoderLSTM,EncoderLSTM,Attention
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/SSF_converter/'
@@ -121,5 +122,12 @@ while 1:
 		i+=1
 	# print(main_format_data)
 	main_format_writer(main_format_data)
+	# ssf_converter.func()
 	ssf_converter2.func()
+
+	ssf_converter.out_temp_file.write('\t\t***Output after Morph Inflection Generator***\n\n')	
+	output = morph_generator.main()
+
+	print(output)
+
 	block_maker()
