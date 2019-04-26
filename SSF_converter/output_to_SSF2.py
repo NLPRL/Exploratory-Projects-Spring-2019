@@ -1,32 +1,33 @@
 import os
 import queue
+import SSF_converter.output_to_SSF as conv2
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR+='/'
-file_in = BASE_DIR+"main_format.txt"
-error= BASE_DIR+"error_conv2.txt"
-temp_file = "SSF.txt"
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# BASE_DIR+='/'
+# file_in = BASE_DIR+"main_format.txt"
+# error= BASE_DIR+"error_conv2.txt"
+# temp_file = "SSF.txt"
 
-error1=open(error,'w',encoding='utf-8')
-out_temp_file = open(temp_file, 'w', encoding='utf-8')
+# error1=open(error,'w',encoding='utf-8')
+# out_temp_file = open(temp_file, 'w', encoding='utf-8')
     
 def file_writer(list_list):
     try:
-        out_temp_file.write("\t".join(list_list)+'\n')
+        conv2.out_temp_file.write("\t".join(list_list)+'\n')
     except:
-        error1.write("\t".join(list_list)+'\n')
+        conv2.error1.write("\t".join(list_list)+'\n')
 
 def print_close_brackets():
     try:
-        out_temp_file.write('\t'+'))'+'\n')
+        conv2.out_temp_file.write('\t'+'))'+'\n')
     except:
-        error1.write('Unable to write in file'+'\n')
+        conv2.error1.write('Unable to write in file'+'\n')
 
 def print_open_brackets(pos,tag):
     try:
-        out_temp_file.write(str(pos[0])+'\t'+'(('+'\t'+tag+'\n')
+        conv2.out_temp_file.write(str(pos[0])+'\t'+'(('+'\t'+tag+'\n')
     except:
-        error1.write('Unable to write in file at'+pos+'\n')
+        conv2.error1.write('Unable to write in file at'+pos+'\n')
 
 
 def main_call(pos,word):
@@ -51,8 +52,6 @@ def sentence_builder(sentence):
     for word in sentence:
         if word[1]=='open_bracket_here':
             continue
-            # open_till+=1
-            # bracket_sequence.put(word[0])
         else:
             if word[12][0] != 'I':
                 pos[0]+=1
@@ -69,13 +68,13 @@ def sentence_builder(sentence):
             main_call(pos,word)
     for num in range(open_till):
         print_close_brackets()
-    out_temp_file.write('\n')
-    out_temp_file.flush()
+    conv2.out_temp_file.write('\n')
+    conv2.out_temp_file.flush()
 
 
 def func():
     sentence_ = []
-    with open(file_in, 'r', encoding='utf-8') as f1:
+    with open(conv2.file_in, 'r', encoding='utf-8') as f1:
         for line in f1:
             if line != '\n':
                 pair = line.strip().split('\t')

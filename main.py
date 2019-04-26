@@ -1,7 +1,7 @@
 import os
-import SSF_converter.SSF_to_Input as conv1
-import SSF_converter.output_to_SSF as conv2
-import SSF_converter.output_to_SSF2 as conv3
+import SSF_converter.SSF_to_Input as input_converter
+import SSF_converter.output_to_SSF as ssf_converter
+import SSF_converter.output_to_SSF2 as ssf_converter2
 import morph_analyser.make_prediction as morph_analyser
 import Pos_Tagger.final_predict_model as pos_tagger
 import chunking.predict as chunker
@@ -25,15 +25,15 @@ def main_format_writer(data):
 
 def block_maker():
 	for  i in range(80):
-		conv2.out_temp_file.write('-')
-	conv2.out_temp_file.write('\n\n')
-	conv2.out_temp_file.flush()
+		ssf_converter.out_temp_file.write('-')
+	ssf_converter.out_temp_file.write('\n\n')
+	ssf_converter.out_temp_file.flush()
 
 while 1:
 	block_maker()
 	print("Please enter your input :",end=' ')
 	inp = input().split()
-	conv2.out_temp_file.write('New Sentence = '+' '.join(inp)+'\n\n')	
+	ssf_converter.out_temp_file.write('New Sentence = '+' '.join(inp)+'\n\n')	
 	main_format_data = []
 	for i  in range(1,len(inp)+1):
 		temp = []
@@ -69,8 +69,8 @@ while 1:
 		j+=1
 	# print(main_format_data)
 	main_format_writer(main_format_data)
-	conv2.out_temp_file.write('\t\t***Output after Morph Analyser***\n\n')
-	conv2.func()
+	ssf_converter.out_temp_file.write('\t\t***Output after Morph Analyser***\n\n')
+	ssf_converter.func()
 	
 	pos_tagger_input = open(pos_tagger_input_file, 'w', encoding='utf-8')
 	# pos , gender , number, person, case ,tam
@@ -85,7 +85,7 @@ while 1:
 	pos_tagger_input.flush()
 	pos_tagger_input.close()
 	
-	conv2.out_temp_file.write('\t\t***Output after POS Tagger***\n\n')	
+	ssf_converter.out_temp_file.write('\t\t***Output after POS Tagger***\n\n')	
 	output = pos_tagger.pos_main()
 	# print(output)
 	i=0
@@ -95,7 +95,7 @@ while 1:
 		main_format_data[j][4]=output[0][i]
 		i+=1
 	main_format_writer(main_format_data)
-	conv2.func()
+	ssf_converter.func()
 
 	chunker_input = open(chunker_input_file, 'w', encoding='utf-8')
 	for j in range(len(main_format_data)):
@@ -110,7 +110,7 @@ while 1:
 	chunker_input.flush()
 	chunker_input.close()
 
-	conv2.out_temp_file.write('\t\t***Output after Chunker***\n\n')	
+	ssf_converter.out_temp_file.write('\t\t***Output after Chunker***\n\n')	
 	output = chunker.main_chunker()
 	# print(output)
 	i=0
@@ -121,5 +121,5 @@ while 1:
 		i+=1
 	# print(main_format_data)
 	main_format_writer(main_format_data)
-	conv2.func()
+	ssf_converter2.func()
 	block_maker()
