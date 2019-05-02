@@ -16,16 +16,18 @@ from keras.preprocessing.sequence import pad_sequences
 import keras
 from sklearn.model_selection import train_test_split
 import numpy as np
+#hyperparameters
 EPOCHS = 5
 EMBED_DIM = 500
 BiRNN_UNITS = 500
+#maxiumum length of character and max length of word for each word and sentence respectively.
 max_len_char=-1
 features=5
 max_len=None
-chunking_file_path = 'input.txt'
+chunking_file_path = 'training_data.txt'
 output_file = 'output.txt'
 def load_data(chunking_file_path, min_freq=1):
-
+    #building the vocab,pos_tags,chunk_tags,features
     file_train = _parse_data(open(chunking_file_path))
     word_counts = Counter(row[0].lower() for sample in file_train for row in sample)
     vocab = ['<pad>', '<unk>']
@@ -139,7 +141,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3,random_s
 X_char_train, X_char_test, __ , __ = train_test_split(X_char, y, test_size=0.3,random_state=2018)
 x_pos_train,x_pos_test,__, ___ = train_test_split(x_pos, y, test_size=0.3,random_state=2018)
 x_feature_train,x_feature_test,__, ___ = train_test_split(x_feature, y, test_size=0.3,random_state=2018)
-print (max_len,max_len_char)
 print('==== training BiLSTM-CRF ====')
 # word embedding
 word_in=Input(shape=(X_train.shape[1],),name='word_in')
@@ -159,7 +160,7 @@ f_enc=(TimeDistributed(LSTM(units=EMBED_DIM//5,return_sequences=False)))(emb_f)
 x = concatenate([emb_word, char_enc, pos_word, f_enc])
 #passing to Bi-LSTM layer
 o=(Bidirectional(LSTM(BiRNN_UNITS // 2, return_sequences=True, dropout=0.2)))(x)
-#Self attention layer
+#Self attention layer(optional)
 '''o = (SeqSelfAttention(attention_type=SeqSelfAttention.ATTENTION_TYPE_MUL,
                        kernel_regularizer=keras.regularizers.l2(1e-4),
                        bias_regularizer=keras.regularizers.l1(1e-4),
@@ -177,8 +178,6 @@ l4=[0]*max_len_char
 l4=numpy.asarray(l4)
 y= model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_pos_test.reshape(len(x_pos_test),max_len),x_feature_test.reshape(len(x_feature_test),max_len,features)])
 y= y.argmax(-1)
-l4=[0]*max_len_char
-l4=numpy.asarray(l4)
 y_pred=[]
 test_y_true=[]
 ctest_y_pred=[]
@@ -199,7 +198,7 @@ for i in range(len(X_test)):
 #converting to numpy array
 test_y_pred=numpy.asarray(y_pred)
 test_y_true=numpy.asarray(test_y_true)
-#writing output for validation
+#writing output for validation of conlleval
 f1=open(output_file,'w')
 for i in range(len(test_y_pred)):
     for j in range(len(test_y_pred[i])):
