@@ -32,4 +32,3 @@
 11.1	।	punc	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
 	))
 
-

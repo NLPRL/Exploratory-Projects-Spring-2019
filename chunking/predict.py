@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 import numpy
+import os
 from collections import Counter
 from keras.models import *
 from keras.models import Sequential
@@ -10,7 +11,7 @@ from keras_contrib.layers import CRF
 from keras_contrib.losses import crf_loss
 from keras_contrib.metrics import crf_viterbi_accuracy
 from keras_contrib.datasets import conll2000
-from keras_self_attention import SeqSelfAttention
+# from keras_self_attention import SeqSelfAttention
 from collections import Counter
 from keras.preprocessing.sequence import pad_sequences
 import keras
@@ -20,9 +21,11 @@ import numpy as np
 max_len_char=18
 max_len=116
 features=5
-chunking_file_path = 'input1.txt'
-output_file = 'output.txt'
-dict_file = 'vocabs.txt'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR += '/'
+chunking_file_path = BASE_DIR+'input.txt'
+output_file = BASE_DIR+'output.txt'
+dict_file = BASE_DIR+'vocabs.txt'
 file_train=[]
 def load_data(chunking_file_path, min_freq=1):
     # loading the vocabulary 
@@ -110,12 +113,12 @@ def main_chunker():
     (X_test,x_pos_test,x_feature_test) = train
     (vocab, pos_tags, class_labels,characters,feat) = voc
     X_char_test=tocharacter(characters,vocab,X_test)
-    json_file = open('model.json', 'r')
+    json_file = open(BASE_DIR+'model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     model = model_from_json(loaded_model_json,custom_objects={'CRF': CRF})
     # load weights into new model
-    model.load_weights("model.h5")
+    model.load_weights(BASE_DIR+"model.h5")
     l4=[0]*max_len_char
     l4=numpy.asarray(l4)
     y= model.predict([X_test,np.array(X_char_test).reshape((len(X_char_test),max_len, max_len_char)),x_pos_test.reshape(len(x_pos_test),max_len),x_feature_test.reshape(len(x_feature_test),max_len,features)])

@@ -10,7 +10,8 @@ from keras_contrib.layers import CRF
 from keras_contrib.losses import crf_loss
 from keras_contrib.metrics import crf_viterbi_accuracy
 from keras_contrib.datasets import conll2000
-from keras_self_attention import SeqSelfAttention
+import os
+# from keras_self_attention import SeqSelfAttention
 from collections import Counter
 from keras.preprocessing.sequence import pad_sequences
 import keras
@@ -25,21 +26,23 @@ BiRNN_UNITS = 500
 max_len_char=18
 features=5
 max_len=116
-pos_file_path = 'sentinput.txt'
-output_file = 'final_output2.txt'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR += '/'
+pos_file_path = BASE_DIR+'sentinput.txt'
+output_file = BASE_DIR+'final_output2.txt'
 def load_data(pos_file_path, min_freq=1):
 
-    voc = _parse_data(open('vocabulary.txt'))
+    voc = _parse_data(open(BASE_DIR+'vocabulary.txt'))
     file_train = _parse_data(open(pos_file_path))
     word_counts = Counter(row[0].lower() for sample in file_train for row in sample)
     vocab = ['<pad>', '<unk>']
     vocab += [w for w, f in iter(word_counts.items()) if f >= min_freq]
-    print(len(voc[0]))
+    # print(len(voc[0]))
     vocab = voc[0][0]
     characters = voc[0][1]
     pos_tags = voc[0][2]
     feat = voc[0][3]
-    print(voc[0][3])
+    # print(voc[0][3])
     global max_len_char
     for sample in file_train:
         for row in sample:
@@ -64,7 +67,7 @@ def _process_data(data, vocab, characters, features,onehot=False):
     if max_len is None:
         max_len = max(len(s) for s in data)
     word2idx = dict((w, i) for i, w in enumerate(vocab))
-    print(features)
+    # print(features)
     f2idx = dict((w, i) for i,w in enumerate(features))
     x = [[word2idx.get(w[0].lower(), 1) for w in s] for s in data]
     y_feature =[ [ [f2idx.get(i,1) for i in w[1:6]] for w in s] for s in data]
@@ -136,11 +139,11 @@ def pos_main():
     x_feature_test=x_feature
 
     # Loading Model Weights
-    json_file = open('model.json','r')
+    json_file = open(BASE_DIR+'model.json','r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json,custom_objects={'CRF':CRF})
-    loaded_model.load_weights("model.h5")
+    loaded_model.load_weights(BASE_DIR+"model.h5")
     loaded_model.compile('adam', loss=crf_loss, metrics=[crf_viterbi_accuracy])
 
     # Prediction
@@ -179,8 +182,6 @@ def pos_main():
             f1.write(s+'\n')
         out.append(out2)
         f1.write('\n')
-    return out
     f1.flush()
     f1.close()
-
-final_tags = pos_main()
+    return out

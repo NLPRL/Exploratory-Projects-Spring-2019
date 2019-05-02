@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/'
 file_in = BASE_DIR+"main_format.txt"
 error= BASE_DIR+"error_conv2.txt"
-temp_file = BASE_DIR+"SSF.txt"
+temp_file = "SSF.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
@@ -23,11 +23,11 @@ def print_close_brackets():
         error1.write('Unable to write in file'+'\n')
 
 def print_open_brackets(pos,tag):
-    # print('here I am\n')
     try:
         out_temp_file.write(pos+'\t'+'(('+'\t'+tag+'\n')
     except:
         error1.write('Unable to write in file at'+pos+'\n')
+
 
 def main_call(word):
     output = []
@@ -35,7 +35,7 @@ def main_call(word):
     try:
         output.append(word[3])
         output.append(word[4])
-        tmp=','.join(word[5:13])
+        tmp=','.join(word[5:12])
         tmp='<fs af='+tmp+'>'
         output.append(tmp)
     except:
@@ -61,16 +61,19 @@ def sentence_builder(sentence):
             # total_new=bracket_sequence.qsize()
             count_open=int(word[2])
             # open_till+=total_new
-            try:
+            # print(word)
+            if len(word)==13:
+                for itr in range(open_till):
+                    print_open_brackets(bracket_sequence.get(),word[12+itr])
+            else:
                 for itr in range(open_till):
                     print_open_brackets(bracket_sequence.get(),'')
-            except:
-                for itr in range(open_till):
-                    print_open_brackets(bracket_sequence.get(),word[11+open_till-itr])
             main_call(word)
     for num in range(count_open-count_close):
         print_close_brackets()
     out_temp_file.write('\n')
+    out_temp_file.flush()
+
 
 def func():
     sentence_ = []
