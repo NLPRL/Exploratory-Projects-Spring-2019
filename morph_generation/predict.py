@@ -1,4 +1,7 @@
-sample_output="sample_output.txt"
+import os 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+BASE_DIR += '/' 
+sample_output=BASE_DIR + "sample_output.txt" 
 def pred():
   f=open(sample_output,"r")
   l1=f.readline()

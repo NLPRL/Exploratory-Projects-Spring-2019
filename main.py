@@ -6,7 +6,7 @@ import morph_analyser.make_prediction as morph_analyser
 import Pos_Tagger.final_predict_model as pos_tagger
 import chunking.predict as chunker
 import lexical.dictionary as lexical
-# import morph_generation.main_file as morph_generator
+import morph_generation.predict as morph_generator 
 # from morph_generation.main_file import Seq2Seq,DecoderLSTM,EncoderLSTM,Attention
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -154,6 +154,7 @@ while 1:
 		i+=1
 
 	# Chunker output is written in main_format.txt
+
 	main_format_writer(main_format_data)
 	
 	# output is converted in SSF with the help of second 
@@ -174,8 +175,14 @@ while 1:
 		i+=1
 
 	# print(main_format_data)
+	ssf_converter.out_temp_file.write('\t\t***Output after Lexical Generator***\n\n') 
+	
 	main_format_writer(main_format_data)
 
 	ssf_converter2.func()
+
+	output = morph_generator.pred() 
+ 
+	ssf_converter.out_temp_file.write('Final Output = '+' '.join(output)+'\n\n')
 
 	block_maker()
