@@ -79,29 +79,31 @@ New Sentence = यह एशिया की सबसे बड़ी मस्ज
 		***Output after Chunker***
 
 1	((	NP
-1.0	यह	PRP	<fs af=यह,,any,sg,3,d,Unk>
+1.1	यह	PRP	<fs af=यह,,any,sg,3,d,Unk>
 	))
 2	((	NP
-2.0	एशिया	NNP	<fs af=एशिया,,any,sg,3,Unk,0>
-2.1	की	NNPC	<fs af=का,,Unk,Unk,Unk,Unk,Unk>
-2.2	सबसे	NNPC	<fs af=सबसे,,Unk,Unk,Unk,Unk,Unk>
-2.3	बड़ी	NNP	<fs af=बड़ा,,f,sg,Unk,d,Unk>
-2.4	मस्जिदों	NNP	<fs af=मस्जिद,,any,pl,Unk,any,Unk>
-2.5	में	NNP	<fs af=में,,Unk,Unk,Unk,Unk,Unk>
+2.1	एशिया	NNP	<fs af=एशिया,,any,sg,3,Unk,0>
+2.2	की	NNPC	<fs af=का,,Unk,Unk,Unk,Unk,Unk>
+2.3	सबसे	NNPC	<fs af=सबसे,,Unk,Unk,Unk,Unk,Unk>
+2.4	बड़ी	NNP	<fs af=बड़ा,,f,sg,Unk,d,Unk>
+2.5	मस्जिदों	NNP	<fs af=मस्जिद,,any,pl,Unk,any,Unk>
+2.6	में	NNP	<fs af=में,,Unk,Unk,Unk,Unk,Unk>
 	))
 3	((	NP
-3.0	से	NNP	<fs af=से,,Unk,Unk,Unk,Unk,Unk>
+3.1	से	NNP	<fs af=से,,Unk,Unk,Unk,Unk,Unk>
 	))
 4	((	NP
-4.0	एक	NNPC	<fs af=एक,,any,any,Unk,any,Unk>
+4.1	एक	NNPC	<fs af=एक,,any,any,Unk,any,Unk>
 	))
 5	((	VGF
-5.0	है	VM	<fs af=है,,any,sg,any,Unk,Unk>
+5.1	है	VM	<fs af=है,,any,sg,any,Unk,Unk>
 	))
 6	((	O
-6.0	।	VAUX	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
+6.1	।	VAUX	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
 	))
 
 
-		***Output after Morph Inflection Generator***
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
 

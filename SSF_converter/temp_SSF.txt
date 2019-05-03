@@ -1,24 +1,23 @@
 1	((	NP
-1.1	children	NNS	<fs af=child,n,m,p,3,0,,>
+1.1	यह	PRP	<fs af=यह,,any,sg,3,d,Unk>
 	))
-2	((	VG
-2.1	are	VBP	<fs af=be,v,m,p,3,0,,>
-2.2	watching	VBG	<fs af=watch,v,m,s,3,0,,>
+2	((	NP
+2.1	एशिया	NNP	<fs af=एशिया,,any,sg,3,Unk,0>
+2.2	की	NNPC	<fs af=का,,Unk,Unk,Unk,Unk,Unk>
+2.3	सबसे	NNPC	<fs af=सबसे,,Unk,Unk,Unk,Unk,Unk>
+2.4	बड़ी	NNP	<fs af=बड़ा,,f,sg,Unk,d,Unk>
+2.5	मस्जिदों	NNP	<fs af=मस्जिद,,any,pl,Unk,any,Unk>
+2.6	में	NNP	<fs af=में,,Unk,Unk,Unk,Unk,Unk>
 	))
 3	((	NP
-3.1	some	DT	<fs af=some,det,m,s,3,0,,>
-3.2	programmes	NNS	<fs af=programme,n,m,p,3,0,,>
+3.1	से	NNP	<fs af=से,,Unk,Unk,Unk,Unk,Unk>
 	))
-4	((	PP
-4.1	on	IN	<fs af=on,p,m,s,3,0,,>
-4.1.1	((	NP
-4.1.2	television	NN	<fs af=television,n,m,s,3,0,,>
+4	((	NP
+4.1	एक	NNPC	<fs af=एक,,any,any,Unk,any,Unk>
 	))
+5	((	VGF
+5.1	है	VM	<fs af=है,,any,sg,any,Unk,Unk>
 	))
-5	((	PP
-5.1	in	IN	<fs af=in,p,m,s,3,0,,>
-5.2	((	NP
-5.2.1	the	DT	<fs af=the,det,m,s,3,0,,>
-5.2.2	house	NN	<fs af=house,n,m,s,3,0,,>
-	))
+6	((	O
+6.1	।	VAUX	<fs af=।,,Unk,Unk,Unk,Unk,Unk>
 	))

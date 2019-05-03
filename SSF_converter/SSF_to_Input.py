@@ -3,7 +3,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR+='/'
 file_in = BASE_DIR+"temp_SSF.txt"
 error= BASE_DIR+"error_conv1.txt"
-temp_file = BASE_DIR+"main_format.txt"
+temp_file = BASE_DIR+"out.txt"
 
 error1=open(error,'w',encoding='utf-8')
 out_temp_file = open(temp_file, 'w', encoding='utf-8')
@@ -81,6 +81,6 @@ def func():
                 pair = line.strip().split('\t')
                 sentence_.append(pair)
             else:
-                sentence_cleaner(sentence_)
+                sentence_builder(sentence_)
                 sentence_.clear()
     sentence_cleaner(sentence_)

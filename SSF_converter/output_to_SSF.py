@@ -57,11 +57,7 @@ def sentence_builder(sentence):
             count_close=int(word[1])
             for num in range(new_close):
                 print_close_brackets()
-            # new_open=int(word[2])-count_open
-            # total_new=bracket_sequence.qsize()
             count_open=int(word[2])
-            # open_till+=total_new
-            # print(word)
             if len(word)==13:
                 for itr in range(open_till):
                     print_open_brackets(bracket_sequence.get(),word[12+itr])

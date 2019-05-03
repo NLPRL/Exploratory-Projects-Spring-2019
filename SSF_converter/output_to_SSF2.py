@@ -39,18 +39,15 @@ def main_call(pos,word):
 
 
 def sentence_builder(sentence):
-    # bracket_sequence = queue.Queue(maxsize=100) 
     open_till=0
-    # count_open=0
-    # count_close=0
-    pos = [0,0]
+    pos = [0,1]
     for word in sentence:
         if word[1]=='open_bracket_here':
             continue
         else:
             if word[12][0] != 'I':
                 pos[0]+=1
-                pos[1]=0
+                pos[1]=1
                 for num in range(open_till):
                     print_close_brackets()
                 open_till=1
