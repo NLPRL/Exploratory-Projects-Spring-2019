@@ -5,6 +5,7 @@ import SSF_converter.output_to_SSF2 as ssf_converter2
 import morph_analyser.make_prediction as morph_analyser
 import Pos_Tagger.final_predict_model as pos_tagger
 import chunking.predict as chunker
+import lexical.dictionary as lexical
 # import morph_generation.main_file as morph_generator
 # from morph_generation.main_file import Seq2Seq,DecoderLSTM,EncoderLSTM,Attention
 
@@ -161,5 +162,20 @@ while 1:
 
 	# ssf_converter.out_temp_file.write('\t\t***Output after Morph Inflection Generator***\n\n')	
 	# output = morph_generator.main()
+
+	temp_list = ['यी','एशियी','का','सबसे','बड़ी','मस्जिद','में','से','एक','हैं','।']
+
+	i=0
+	for j in range(len(main_format_data)):
+		if main_format_data[j][1]=='open_bracket_here':
+			continue
+		main_format_data[j][5] = lexical.convert(main_format_data[j][5],'noun')
+		main_format_data[j][5]=temp_list[i]
+		i+=1
+
+	# print(main_format_data)
+	main_format_writer(main_format_data)
+
+	ssf_converter2.func()
 
 	block_maker()

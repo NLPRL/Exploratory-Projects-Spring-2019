@@ -1,8 +1,12 @@
-adj="adj-crossLinks.idx"
-adv="adv-crossLinks.idx"
-fw="fw-crossLinks.idx"
-noun="noun-crossLinks.idx"
-verb="verb-crossLinks.idx"
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR += '/'
+
+adj=BASE_DIR + "adj-crossLinks.idx"
+adv=BASE_DIR + "adv-crossLinks.idx"
+fw=BASE_DIR + "fw-crossLinks.idx"
+noun=BASE_DIR + "noun-crossLinks.idx"
+verb=BASE_DIR + "verb-crossLinks.idx"
 htb="Unk"
 minidex=100000000000
 def convert(a,pos_tag):
@@ -39,6 +43,6 @@ def convert(a,pos_tag):
 			minidex=roothid
 		line=f1.readline()
 	return htb
-print (convert("BUla","verb"))
+# print (convert("BUla","verb"))
 
 
