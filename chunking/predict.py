@@ -28,6 +28,7 @@ output_file = BASE_DIR+'output.txt'
 dict_file = BASE_DIR+'vocabs.txt'
 file_train=[]
 def load_data(chunking_file_path, min_freq=1):
+    # loading the vocabulary 
     global file_train
     file_train = _parse_data(open(chunking_file_path))
     word_counts = Counter(row[0].lower() for sample in file_train for row in sample)
@@ -152,4 +153,3 @@ def main_chunker():
     f1.flush()
     f1.close()
     return out
-
